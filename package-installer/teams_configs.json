@@ -1,0 +1,18 @@
+[
+  {
+    "name": "teamA",
+    "configs": [ "01", "02", "03"]
+  },
+  {
+    "name": "teamB",
+    "configs": [ "11", "12", "13"]
+  },
+  {
+    "name": "teamC",
+    "configs": [ "21", "22", "23"]
+  },
+  {
+    "name": "teamD",
+    "configs": [ "31", "32", "33"]
+  }
+]
