@@ -1,5 +1,6 @@
 <template>
   <div class="body">
+
     <div class="navi">
       <h2>{{ $t("msg001") }}</h2>
       <br/>
@@ -8,51 +9,48 @@
       <h3 align="left" >{{ $t("msg301")}}</h3>
       <h3 align="left" >{{ $t("msg401")}}</h3>
     </div>
+
     <div class="title">
       <h1 align="left">{{ $t("msg101") }}</h1>
     </div>
+
     <div class="description">
        <h3 align="left">{{ $t("msg102") }}</h3>
        <h3 align="left">{{ $t("msg103") }}</h3>
     </div>
-    <div class="main">
 
+    <div class="main">
       <label align="left">{{ $t("msg104") }}</label>
       <div class="form-inline">
-        <b-form-select v-model="selectedTeam" v-on:change="fetchConfigs" :options="teams" class="col-10"/>
-        <!-- v-on:clickでクリックイベントをmethodsのメソッドと紐付ける -->
-        <!-- v-bind:で対象をdata要素と紐付ける。この場合はdisabledの状態をisUpdatingTeamListと紐付ける -->
-<!--        <b-button v-on:click="onClickUpdateListBtn" v-bind:disabled="isUpdatingTeamList">リスト更新</b-button> -->
-        <b-form-select v-model="selectedConfig" :options="configs" class="col-10"/>
+        <b-form-select v-model="$store.state.appInfo.teamname" v-on:change="fetchConfigs" :options="teams" class="col-10"/>
+        <b-form-select v-model="$store.state.appInfo.configuration" :options="configs" class="col-10"/>
       </div>
-
     </div>
+
     <div class="footer">
-      <form @submit.prevent="submit">
-        {{ $t("msg104")}}:
-        <input v-model="$store.state.appInfo.email">      
+      <form @submit.prevent="submit" align="left">
         <button type="submit">{{ $t("msg002")}}</button>
       </form>
     </div>
   </div>
+  
 </template>
 
 <script>
 import { exec } from 'child_process'
-import cpBackground from './ComponentsBackground'
+import { mapState } from 'vuex'
 
 export default {
+  namespace: true,
   data() {
     return {
       teams: [ 'プロジェクトチーム名を選択' ],
-      selectedTeam: '',
       isUpdatingTeamList: false,
       configs: [],
-      selectedConfig: ''
     }
   },
 
-  // get initial data; team list
+// get initial data; team list
   mounted() {
       this.teams = []
       var fs = require('fs');
@@ -67,7 +65,6 @@ export default {
   },
 
   methods: {
-    name: 'Input1',
     onClickUpdateListBtn () {
 //      isUpdatingTeamList = false
       this.teams = []
@@ -87,10 +84,11 @@ export default {
       var fs = require('fs');
       var jsonObject = JSON.parse(fs.readFileSync("./teams_configs.json", {encoding: "utf-8"}))
 
+      this.configs = []
       for (var i in jsonObject) {
-        console.log('##########Config########## ')      
+        console.log('##########Config########## ')
         var  temp = jsonObject[i]
-        if( temp.name === this.selectedTeam ){
+        if( temp.name === this.$store.state.appInfo.teamname ){
           for( var j in temp.configs ){
             console.log( temp.configs[j])
             this.configs.push( temp.configs[j])
@@ -101,8 +99,14 @@ export default {
     },
 
     submit () {
-      // validate data and do somethings ...
+      alert('##########submit1########## ')
+      console.log(this.$store.state.appInfo.platform)
+      console.log(this.$store.state.appInfo.teamname)
+      console.log(this.$store.state.appInfo.configuration)
 
+      // check OS
+      var os = require('os')
+      this.$store.state.appInfo.platform = os.platform()
       this.$router.push('/input2')
     },
 

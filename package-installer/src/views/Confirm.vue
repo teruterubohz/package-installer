@@ -17,11 +17,7 @@
     </div>
     <div class="footer">
     <form @submit.prevent="submit">
-<!--
-      <div>email: {{ email }}</div>
-      <div>name: {{ name }}</div>
-      <div>age: {{ age }}</div>
--->
+
       <router-link to="/input2">
         <button>{{ $t("msg003")}}</button>
       </router-link>
@@ -35,6 +31,7 @@
 import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
+/*
   computed: {
     ...mapState({
       email: state => state.userForm.email,
@@ -42,6 +39,7 @@ export default {
       age: state => state.userForm.age
     })
   },
+*/
   methods: {
     ...mapMutations({
       clearUserForm: 'userForm/clear'
@@ -50,6 +48,7 @@ export default {
       submitUserForm: 'userForm/submit'
     }),
     async submit () {
+      alert('##########submit confirm ########## ')            
       await this.submitUserForm()
 
       this.clearUserForm()

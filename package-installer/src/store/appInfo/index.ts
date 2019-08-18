@@ -7,9 +7,10 @@ const initialState = {
   email: '',
   name: '',
   age: 0,
-  os: '',
+  platform: '',
   teamname: '',
-  configuration: ''
+  configuration: '',
+  ide: '',
 }
 
 export const appInfo: Module<AppInfo, RootState> = {
@@ -20,9 +21,22 @@ export const appInfo: Module<AppInfo, RootState> = {
       state.email = ''
       state.name = ''
       state.age = 0
-      state.os = ''
+      state.platform = ''
       state.teamname = ''
       state.configuration = ''
+      state.ide = ''
+    },
+    update_state_platform: function(state, platform){
+      state.platform = platform
+    },
+    update_state_teamname: function(state, teamname){
+      state.teamname = teamname
+    },
+    update_state_configuration: function(state, configuration){
+      state.configuration = configuration
+    },
+    update_state_ide: function(state, ide){
+      state.ide = ide
     }
   },
   actions: {

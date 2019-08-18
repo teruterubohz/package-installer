@@ -11,8 +11,5 @@ export default new Vuex.Store<RootState>({
   state: {},
   modules: {
     appInfo
-  },
-  mutations:{
-    
   }
 })

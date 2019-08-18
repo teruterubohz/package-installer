@@ -23,20 +23,6 @@ export default new Router({
       path: '/',
       component: WithVuexInput1
     },
-    /*
-    {
-      path: '/dynamic_component_test',
-      component: DynamicComponentTest
-    },
-    {
-      path: '/sync_test',
-      component: SyncTest
-    },
-    {
-      path: '/without_vuex',
-      component: WitoutVuexParent
-    },
-*/    
     {
       path: '/input1',
       component: WithVuexInput1,

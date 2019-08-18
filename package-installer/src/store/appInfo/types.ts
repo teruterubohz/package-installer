@@ -2,7 +2,8 @@ export interface AppInfo {
   email: string;
   name: string;
   age: number;
-  os: string;
+  platform: string;
   teamname: string;
   configuration: string;
+  ide: string;
 }
