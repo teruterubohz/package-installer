@@ -3,13 +3,16 @@ import Vuex from 'vuex'
 
 import { RootState } from './types'
 
-import { userForm } from './userForm'
+import { appInfo } from './appInfo'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store<RootState>({
   state: {},
   modules: {
-    userForm
+    appInfo
+  },
+  mutations:{
+    
   }
 })

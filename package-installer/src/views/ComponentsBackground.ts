@@ -17,13 +17,13 @@ export default class cpBackground {
     var fs = require('fs');
     var jsonObject = JSON.parse(fs.readFileSync("./teams_configs.json", {encoding: "utf-8"}))
     console.log(jsonObject)
-//    return(jsonObject)
 
     for (var i in jsonObject) {
        var  team = jsonObject[i];
         console.log(team.name);
     }
 
+    return(jsonObject)
 /*        let msg = '';
         fs.readFile('hoge.txt', 'utf-8', (err, data) => {
         // 例外処理
@@ -32,7 +32,6 @@ export default class cpBackground {
         console.log(msg);
         });
         console.log('ファイル読み込み中でも処理が走ります。');*/
-    return;
   }
 
 // make configuration list for configuration drop down list
