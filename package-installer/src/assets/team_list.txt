@@ -1,6 +1,0 @@
-teamA
-teamB
-teamC
-teamD
-teamE
-teamF

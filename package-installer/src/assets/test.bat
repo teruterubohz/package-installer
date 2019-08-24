@@ -1,1 +1,0 @@
-mkdir .\src\assets\00000testTEST00000
