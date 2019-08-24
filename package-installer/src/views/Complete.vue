@@ -16,6 +16,10 @@
      <div class="main">
      </div>
      <div class="footer">
+        <router-link to="/Confirm">
+          <button>{{ $t("msg003")}}</button>
+        </router-link>
+
       <router-link to="/">ホームへ</router-link>
       </div>
    </div>

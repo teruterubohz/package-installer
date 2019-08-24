@@ -1,11 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-/*
-import Home from './views/Home.vue'
-import DynamicComponentTest from './views/dynamic_component_test/Parent.vue'
-import SyncTest from './views/sync_test/Parent.vue'
-import WitoutVuexParent from './views/without_vuex/Parent.vue'
-*/
+
 import WithVuexInput1 from './views/Input1.vue'
 import WithVuexInput2 from './views/Input2.vue'
 import WithVuexConfirm from './views/Confirm.vue'
