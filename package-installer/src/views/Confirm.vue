@@ -14,15 +14,15 @@
     </div>
 
     <div class="description">
-      <p v-bind:style="styles">
-        {{command_txt}}
-      </p>
+<!--      <p v-bind:style="styles"> -->
+        {{ command_txt }}
+<!--      </p> -->
     </div>
 
     <div class="main">
-      <p v-bind:style="styles">
-      {{stdout_txt}}
-      </p>
+<!--      <p v-bind:style="styles"> -->
+      {{ result_txt }}
+<!--      </p> -->
     </div>
 
     <div class="footer">
@@ -46,8 +46,8 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
     data() {
     return {
-      command_txt: ' ',
-      stdout_txt: '',
+      command_txt: '',
+      result_txt: '',
       styles: {
           margin: '10px',
           padding: '5px 20px',
@@ -58,24 +58,7 @@ export default {
       }
     }
   },
-/*
-  computed: {
-    ...mapState({
-      email: state => state.userForm.email,
-      name: state => state.userForm.name,
-      age: state => state.userForm.age
-    })
-  },
-*/
   methods: {
-/*    
-    ...mapMutations({
-      clearUserForm: 'userForm/clear'
-    }),
-    ...mapActions({
-      submitUserForm: 'userForm/submit'
-    }),
-*/
     async submit () {
       alert('##########submit confirm ########## ')            
 
@@ -83,14 +66,18 @@ export default {
       var fs = require("fs");
       var readline = require("readline");
 
-      fs.readFileSync("items2.ps1").toString().split('\n').forEach(function(line){
+      fs.readFileSync("items2.ps1").toString().split('\r\n').forEach(function(line){
           console.log(line.toString());
-          var command = "powershell " + line
-          console.log(command)
-          const stdout = execSync(command)
-          console.log(stdout.toString())
-//          this.$set(this.commnd, 'command', command)
-//          this.$set(this.command_txt, 'stdout', stdout)
+          var command = "powershell " + line;
+          console.log(command);
+          const stdout = execSync(command);
+          console.log(stdout.toString());
+
+//          this.command_txt = line;
+//          this.result_txt = atdout;
+//          this.$set(this.commnd_txt, 'command', command)
+//          this.$set(this.stdout_txt, 'stdout', stdout)
+//          this.$forceUpdate();
       })
 
 //      this.clearUserForm()

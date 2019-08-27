@@ -8,12 +8,6 @@ dir
 
 ps
 
-dir
+mkdir 00000test00000
 
-ps
-
-dir
-
-ps
-
-
+mkdir 11111test11111
