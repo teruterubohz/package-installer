@@ -14,15 +14,19 @@
     </div>
 
     <div class="description">
-<!--      <p v-bind:style="styles"> -->
-        {{ command_txt }}
-<!--      </p> -->
+      <textarea class="form-control" v-model="command_txt" 
+                      :rows="6" 
+                      style="overflow:auto;"
+                      readonly>
+        </textarea>
     </div>
 
     <div class="main">
-<!--      <p v-bind:style="styles"> -->
-      {{ result_txt }}
-<!--      </p> -->
+      <textarea class="form-control" v-model="result_txt" 
+                      :rows="11" 
+                      style="overflow:auto;"
+                      readonly>
+        </textarea>
     </div>
 
     <div class="footer">
@@ -44,7 +48,7 @@ import readline from 'readline'
 import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
-    data() {
+  data() {
     return {
       command_txt: '',
       result_txt: '',
@@ -58,31 +62,71 @@ export default {
       }
     }
   },
+  mounted() {
+    var fs = require('fs');
+    const file = "./commandItems1.ps1"
+    const msg = fs.readFileSync( file, {encoding: "utf-8"})
+    this.command_txt = msg
+  },
   methods: {
+    reload: function() {
+        this.$router.go({path: this.$router.currentRoute.path, force: true});
+    },
+    something: function() {
+        // reloadを呼び出すことで画面リロード
+        this.reload();
+    },
+    spawnw: function(cmd, opt, env){
+      var spawn = require("child_process").spawn,child; 
+      return new Promise((resolve) => {
+        let p = spawn(cmd, opt, env);
+        p.stdout.setEncoding('utf8');
+        p.stdout.on('data', (data)=>{
+          console.log(data);
+          this.result_txt += data
+        });
+        p.on('close', (code)=>{
+          resolve();
+        })
+      });
+    },
     async submit () {
-      alert('##########submit confirm ########## ')            
+      console.log('##########submit confirm ########## ')
+      var spawn = require("child_process").spawn,child; 
 
-      var execSync = require('child_process').execSync;
-      var fs = require("fs");
-      var readline = require("readline");
+//      console.log('exec ===============');
+//      let res = await exec('bash test.sh 10 1',{cwd:'./'})
+//      let res = await exec('powershell.exe', ["./commandItems1.ps1"])
+//      console.log(res.stdout);
+//      this.result_txt = res.stdout
 
-      fs.readFileSync("items2.ps1").toString().split('\r\n').forEach(function(line){
-          console.log(line.toString());
-          var command = "powershell " + line;
-          console.log(command);
-          const stdout = execSync(command);
-          console.log(stdout.toString());
+      console.log('============== spawn ==============');
 
-//          this.command_txt = line;
-//          this.result_txt = atdout;
-//          this.$set(this.commnd_txt, 'command', command)
-//          this.$set(this.stdout_txt, 'stdout', stdout)
-//          this.$forceUpdate();
-      })
+      await this.spawnw('powershell.exe',['./commandItems1.ps1'], {cwd:'./'});
+      console.log('done!');
 
-//      this.clearUserForm()
+/*
+      var spawn = require("child_process").spawn,child; 
+      child = spawn("powershell.exe",["./commandItems1.ps1"]); 
+      child.stdout.on("data",function(data){ 
+          console.log("Powershell Data: " + data); 
+          this.result_txt = data
+      }); 
+      child.stderr.on("data",function(data){ 
+          console.log("Powershell Errors: " + data); 
+          this.result_txt = data
+     }); 
+      child.on("exit",function(){ 
+          console.log("Powershell Script finished"); 
+          this.result_txt = data
+        }); 
+      child.stdin.end(); //end input 
+ */
+
       this.$router.push('/complete')
     }
   }
 }
+
+
 </script>
