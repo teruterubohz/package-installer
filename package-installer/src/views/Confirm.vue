@@ -77,51 +77,65 @@ export default {
         this.reload();
     },
     spawnw: function(cmd, opt, env){
+      console.log('============== spawnw ==============');
       var spawn = require("child_process").spawn,child; 
       return new Promise((resolve) => {
         let p = spawn(cmd, opt, env);
         p.stdout.setEncoding('utf8');
+
         p.stdout.on('data', (data)=>{
+          console.log('============ spawn Stdout ============')
           console.log(data);
           this.result_txt += data
         });
+
+        p.stderr.on('data', (err) => {
+          console.log('============ spawn Stderr ============')
+          console.error(err.toString());
+          this.result_txt += err
+        });
+
         p.on('close', (code)=>{
+          console.log('============== close ==============')
           resolve();
         })
+
       });
     },
     async submit () {
       console.log('##########submit confirm ########## ')
       var spawn = require("child_process").spawn,child; 
 
-//      console.log('exec ===============');
-//      let res = await exec('bash test.sh 10 1',{cwd:'./'})
-//      let res = await exec('powershell.exe', ["./commandItems1.ps1"])
-//      console.log(res.stdout);
-//      this.result_txt = res.stdout
+      if( this.$store.state.appInfo.platform == 'mac'){
+        // Install set for mac
+        // Common install
+        console.log('########## Package install ##########')
+        await this.spawnw('shell',['./commandItems1.ps1'], {cwd:'./'});
+        console.log('done!');
 
-      console.log('============== spawn ==============');
+          // IDE install
+  //      var ide = this.$store.state.appInfo.ide
+        console.log('########## IDE install ##########')
+        this.$store.state.appInfo.ide = 'intellijidea-community'
+        var ide_install = ' ' + this.$store.state.appInfo.ide + ' -y'
+        console.log('IDE install: ' + ide_install )
+        await this.spawnw('shell ',[ide_install], {cwd:'./'});
+        
+      }else{
+        // Install set for windows
+        // Common install
+        console.log('########## Package install ##########')
+        await this.spawnw('powershell.exe',['./commandItems1.ps1'], {cwd:'./'});
+        console.log('done!');
 
-      await this.spawnw('powershell.exe',['./commandItems1.ps1'], {cwd:'./'});
-      console.log('done!');
-
-/*
-      var spawn = require("child_process").spawn,child; 
-      child = spawn("powershell.exe",["./commandItems1.ps1"]); 
-      child.stdout.on("data",function(data){ 
-          console.log("Powershell Data: " + data); 
-          this.result_txt = data
-      }); 
-      child.stderr.on("data",function(data){ 
-          console.log("Powershell Errors: " + data); 
-          this.result_txt = data
-     }); 
-      child.on("exit",function(){ 
-          console.log("Powershell Script finished"); 
-          this.result_txt = data
-        }); 
-      child.stdin.end(); //end input 
- */
+          // IDE install
+  //      var ide = this.$store.state.appInfo.ide
+        console.log('########## IDE install ##########')
+        this.$store.state.appInfo.ide = 'intellijidea-community'
+        var ide_install = 'choco install ' + this.$store.state.appInfo.ide + ' -y'
+        console.log('IDE install: ' + ide_install )
+        await this.spawnw('powershell.exe',[ide_install], {cwd:'./'});
+    }
 
       this.$router.push('/complete')
     }
